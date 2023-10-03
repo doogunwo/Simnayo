@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title><br>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <style>
+        .maincontainer {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                border: 2px solid black;
+                padding: 20px;
+                border-radius: 15px; /* 둥근 테두리 추가 */
+                
+            }
+    
+        .green-border {
+            border: 2px solid black;
+            border-radius: 10px; /* 둥근 테두리 추가 */
+            
+        }
+        
+      
+      
+        
+    </style>
+
+</head>
+<body>
+
+<div class ="container">
+    
+    <div class="maincontainer">
+        <h3>심나요</h3>
+        <br>
+        <label for="searchid" class="form-label"> 식물을 검색하세요</label><br>
+        <input type="text" class="form-control green-border" id="searchinput"><br>
+        <div>
+            <button id="searchbutton"   onclick="location.href='views/list.html'"  class="btn btn-secondary">검색</button>
+            <button id="registerbutton" onclick="location.href='views/admin.html'" class="btn btn-secondary">상품등록</button>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    $("#searchbutton").click(function(){
+        const searchinput = $("#searchinput").val()
+        console.log(searchinput)
+        $.get('/list',{searchinput},function(data,status){
+            console.log("/list get",searchinput)
+            
+        })
+    })
+
+    $("#registerbutton").click(function(){
+        $.get('/admin', function(data,status){
+            console.log("/admin get request")
+        })
+    })
+
+</script>
+</html>

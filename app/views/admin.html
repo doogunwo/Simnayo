@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>index</title><br>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+    <style>
+         
+    </style>
+</head>
+<body>
+
+    <div>
+        <div class="container text-center">
+            <h1>팜 관리</h1>
+            <div class="row">
+              <div class="col">
+                <div calss='container'>
+                    <label for="owner" class="form-label">소유자 : owner</label><br>
+                    <input type="text" id="owner" class="form-control green-border"><br>
+
+                    <label for="plantid" class="form-label">플랜트아이디 : PlantID</label><br>
+                    <input type="text" id="plantid" class="form-control green-border"><br>
+        
+                    <label for="sunlight" class="form-label">조도: Sunlight</label><br>
+                    <input type="text" id="sunlight" class="form-control green-border"><br>
+        
+                    <label for="moisture" class="form-label">땅의 습도: Moisture</label><br>
+                    <input type="text" id="moisture" class="form-control green-border"><br>
+
+                    <label for="humidity" class="form-label">대기 습도: Humidity</label><br>
+                    <input type="text" id="humidity" class="form-control green-border"><br>
+        
+                    <label for="ph" class="form-label">땅의 산성도: PH</label><br>
+                    <input type="text" id="ph" class="form-control green-border"><br>
+        
+                    <label for="ca" class="form-label">검증인: CA</label><br>
+                    <input type="text" id="ca" class="form-control green-border"><br>
+                    
+                    <label for="hoticulture" class="form-label">원예기록: Horticulture</label><br>
+                    <input type="text" id="hoticulture" class="form-control green-border"><br>
+        
+                    <button id="create_asset_button" class="btn btn-secondary">원예 일지 생성</button><br>
+                    <button id="update_asset_button" class="btn btn-secondary">원예 일지 기록</button><br>
+                </div>
+                <div calss="container">
+                  <p id="contract_result"></p>
+                      <table class="table" id="contract_result_table">
+                          <thread>
+                              <th>&nbsp;</th>
+                              <th>Content</th>
+      
+                          </thread>
+                          <tbody id="contract_result_table_body"></tbody>
+                      </table> 
+      
+              </div>
+
+              </div>
+              <div class="col">
+                 <div calss='container'>
+                    <label for="adminid" class="form-label"> 관리자 ID:</label><br>
+                    <input type="text" class="form-control green-border" id="adminid"><br>
+                    <label for="adminpw">관리자 PW</label><br>
+                    <input type="password" class="form-control green-border" id="adminpw"><br>
+                    <button id="admin_button" class="btn btn-secondary">관리자 인증서 생성</button><br>
+                </div>
+                <div calss="container">
+                  <p id="admin_result"></p>
+                  <table class="table" id="admin_result_talbe">
+                      <thread>
+                          <th>&nbsp;</th>
+                          <th>Content</th>
+                      </thread>
+                      <tbody id="admin_result_table_body"></tbody>
+                  </table>
+      
+              </div>
+
+              </div>
+              <div class="col">
+                <div calss='container'>
+                    <label for="userid" class="form-label"> 팜 ID:</label><br>
+                    <input type="text" class="form-control" id="userid"><br>
+        
+                    <label for="userrole" class="form-label"> 팜 역할:</label><br>
+                    <input type="text" class="form-control" id="userrole"><br>
+        
+                    <label for="userdpt" class="form-label"> 팜 부서:</label><br>
+                    <input type="text" class="form-control" id="userdpt"><br>
+        
+                    <button id="user_button" class="btn btn-secondary">팜 인증서 생성</button><br>
+                </div>
+
+                <div calss="container">
+                  <p id="user_result"></p>
+                      <table class="table" id="user_result_table">
+                          <thread>
+                              <th>&nbsp;</th>
+                              <th>Content</th>
+      
+                          </thread>
+                          <tbody id="user_result_table_body"></tbody>
+                      </table> 
+      
+              </div>
+
+              </div>
+            </div>
+          </div>
+    </div>
+</body>
+<script>
+
+$("#admin_button").click(function(){
+    const adminid = $("#adminid").val()
+    const adminpw = $("#adminpw").val()
+    $.post('/admin',{adminid,adminpw},function(data,status){
+      $("#admin_result").text(JSON.stringify(data))
+
+      $("#admin_result_table_body").empty()
+      $("#admin_result_table_body").append("<tr><td>Result</td><td>"+data.result+"</td></tr>")
+      $("#admin_result_table_body").append("<tr><td>Message</td><td>"+data.message+"</td></tr>")
+      $("#admin_result_table").show()
+    })
+})
+
+$("#user_button").click(function(){
+        //adminid, adminpw input 에서 읽어오기
+        const userid = $("#userid").val()
+        const userrole = $("#userrole").val()
+        const userdpt = $("#userdpt").val()
+        
+        //ajax 로 웹서버에 /admin post 요청 보내기
+        $.post('/user',{userid,userrole,userdpt}, function(data,status){
+             //결과값 result에 반영하기
+             $("#user_result").text(JSON.stringify(data))
+             
+             $('#user_result_table_body').empty()
+             $('#user_result_table_body').append("<tr><td>Result</td><td>"+data.result+"</td></tr>")
+             $('#user_result_table_body').append("<tr><td>Message</td><td>"+data.message+"</td></tr>")
+             $("#user_result_table_body").show()
+        })
+        //결과값 result에 반영하기
+    })
+
+
+$("#update_asset_button").click(function(){
+        console.log("/plant/log button click")
+        const owner = $('#owner').val()
+        const plantid = $("#plantid").val()
+        const sunlight =  $("#sunlight").val()
+        const moisture =  $("#moisture").val()
+        const humidity =  $("#humidity").val()
+        const ph =  $("#ph").val()
+        const ca =  $("#ca").val()
+        const hoticulture =  $("#hoticulture").val()
+
+        $.post("/plant/log", {owner,plantid,sunlight,moisture,humidity,ph,ca,hoticulture}, function(data,status){
+            //contract_result_table_body
+
+            $("#contract_result_table_body").empty()
+            $("#contract_result_table_body").append("<tr><td>Result</td><td>" + data.result + "</td></tr>")
+            $("#contract_result_table_body").append("<tr><td>Message</td><td>" + data.message + "</td></tr>")
+            $("#contract_result_table_body").show()
+
+        })
+})
+
+$("#create_asset_button").click(function(){
+        console.log("/plant/plant button click")
+        const owner = $('#owner').val()
+        const plantid = $("#plantid").val()
+        const sunlight =  $("#sunlight").val()
+        const moisture =  $("#moisture").val()
+        const humidity =  $("#humidity").val()
+        const ph =  $("#ph").val()
+        const ca =  $("#ca").val()
+        const hoticulture =  $("#hoticulture").val()
+
+        $.post("/plant/plant", {owner,plantid,sunlight,moisture,humidity,ph,ca,hoticulture}, function(data,status){
+            //contract_result_table_body
+
+            $("#contract_result_table_body").empty()
+            $("#contract_result_table_body").append("<tr><td>Result</td><td>" + data.result + "</td></tr>")
+            $("#contract_result_table_body").append("<tr><td>Message</td><td>" + data.message + "</td></tr>")
+            $("#contract_result_table_body").show()
+
+        })
+})
+</script>
+</html>
