@@ -1,2 +1,3 @@
-
-*.html -text -diff -merge
+*.css linguist-detectable=false
+*.html linguist-detectable=false
+*.tex linguist-detectable=false
